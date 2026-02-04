@@ -1,0 +1,46 @@
+---
+
+---
+
+<button
+  id="back-to-top"
+  class="fixed bottom-6 right-6 z-40 rounded-full bg-surface p-3 shadow-lg border border-border opacity-0 pointer-events-none transition-all duration-300 hover:shadow-xl dark:bg-surface-dark dark:border-border-dark"
+  aria-label="Back to top"
+>
+  <svg
+    class="h-5 w-5 text-text-primary dark:text-text-primary-dark"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById("back-to-top");
+    if (!btn) return;
+
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (window.scrollY > 400) {
+          btn.style.opacity = "1";
+          btn.style.pointerEvents = "auto";
+        } else {
+          btn.style.opacity = "0";
+          btn.style.pointerEvents = "none";
+        }
+      },
+      { passive: true },
+    );
+
+    btn.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  })();
+</script>

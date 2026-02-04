@@ -1,0 +1,32 @@
+---
+import type { Feature } from "@lib/types";
+
+interface Props {
+  features: Feature[];
+}
+
+const { features } = Astro.props;
+---
+
+{
+  features.length > 0 && (
+    <section class="px-4 py-12 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-4xl">
+        <h2 class="text-heading mb-8 text-center">Features</h2>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature) => (
+            <div class="card-base flex flex-col items-center text-center">
+              <span class="mb-3 text-3xl" aria-hidden="true">
+                {feature.icon}
+              </span>
+              <h3 class="mb-2 text-lg font-semibold">{feature.title}</h3>
+              <p class="text-sm text-text-secondary dark:text-text-secondary-dark">
+                {feature.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

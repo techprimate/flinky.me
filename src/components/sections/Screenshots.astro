@@ -1,0 +1,96 @@
+---
+import DeviceToggle from '@components/ui/DeviceToggle.astro';
+import type { ScreenshotSets } from '@lib/types';
+
+interface Props {
+  screenshots: ScreenshotSets;
+  appName: string;
+}
+
+const { screenshots, appName } = Astro.props;
+const hasIphone = screenshots.iphone.length > 0;
+const hasIpad = screenshots.ipad.length > 0;
+const hasScreenshots = hasIphone || hasIpad;
+---
+
+{hasScreenshots && (
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="text-heading mb-8 text-center">Screenshots</h2>
+
+      <DeviceToggle hasIphone={hasIphone} hasIpad={hasIpad} />
+
+      {hasIphone && (
+        <div data-screenshots="iphone" class="screenshot-scroll">
+          {screenshots.iphone.map((shot, i) => (
+            <img
+              src={shot.url}
+              alt={`${appName} iPhone screenshot ${i + 1}`}
+              class="screenshot-img h-[500px] w-auto flex-shrink-0 rounded-2xl shadow-lg cursor-pointer transition-transform hover:scale-[1.02] sm:h-[600px]"
+              loading="lazy"
+            />
+          ))}
+        </div>
+      )}
+
+      {hasIpad && (
+        <div data-screenshots="ipad" class="screenshot-scroll" style={hasIphone ? 'display:none' : ''}>
+          {screenshots.ipad.map((shot, i) => (
+            <img
+              src={shot.url}
+              alt={`${appName} iPad screenshot ${i + 1}`}
+              class="screenshot-img h-[400px] w-auto flex-shrink-0 rounded-2xl shadow-lg cursor-pointer transition-transform hover:scale-[1.02] sm:h-[500px]"
+              loading="lazy"
+            />
+          ))}
+        </div>
+      )}
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot preview">
+      <button
+        id="lightbox-close"
+        class="absolute top-4 right-4 rounded-full bg-white/10 p-2 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+        aria-label="Close preview"
+      >
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <img id="lightbox-img" src="" alt="Screenshot preview" />
+    </div>
+  </section>
+)}
+
+<script is:inline>
+  (function () {
+    var lightbox = document.getElementById('lightbox');
+    var lightboxImg = document.getElementById('lightbox-img');
+    var lightboxClose = document.getElementById('lightbox-close');
+    if (!lightbox || !lightboxImg || !lightboxClose) return;
+
+    document.querySelectorAll('.screenshot-img').forEach(function (img) {
+      img.addEventListener('click', function () {
+        lightboxImg.src = this.src;
+        lightboxImg.alt = this.alt;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  })();
+</script>

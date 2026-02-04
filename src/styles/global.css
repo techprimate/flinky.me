@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #007aff;
+  --color-primary-dark: #0a84ff;
+  --color-surface: #ffffff;
+  --color-surface-dark: #1c1c1e;
+  --color-surface-secondary: #f2f2f7;
+  --color-surface-secondary-dark: #2c2c2e;
+  --color-text-primary: #1c1c1e;
+  --color-text-primary-dark: #f2f2f7;
+  --color-text-secondary: #6e6e73;
+  --color-text-secondary-dark: #98989d;
+  --color-border: #d1d1d6;
+  --color-border-dark: #38383a;
+  --color-star: #ff9500;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-surface text-text-primary antialiased;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+.dark body {
+  @apply bg-surface-dark text-text-primary-dark;
+}
+
+/* Utility classes */
+.card-base {
+  @apply rounded-2xl border border-border bg-surface p-6;
+}
+
+.dark .card-base {
+  @apply border-border-dark bg-surface-dark;
+}
+
+.store-button {
+  @apply inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold transition-all duration-200 bg-black text-white hover:bg-gray-800;
+}
+
+.dark .store-button {
+  @apply bg-white text-black hover:bg-gray-200;
+}
+
+.text-heading {
+  @apply text-3xl font-bold tracking-tight sm:text-4xl;
+}
+
+.info-badge {
+  @apply inline-flex items-center gap-1.5 rounded-full bg-surface-secondary px-3 py-1 text-sm text-text-secondary;
+}
+
+.dark .info-badge {
+  @apply bg-surface-secondary-dark text-text-secondary-dark;
+}
+
+/* Screenshot gallery */
+.screenshot-scroll {
+  @apply flex gap-4 overflow-x-auto pb-4;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.screenshot-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.screenshot-scroll img {
+  scroll-snap-align: center;
+}
+
+/* Lightbox */
+.lightbox {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/80 opacity-0 pointer-events-none transition-opacity duration-300;
+}
+
+.lightbox.active {
+  @apply opacity-100 pointer-events-auto;
+}
+
+.lightbox img {
+  @apply max-h-[90vh] max-w-[90vw] rounded-2xl object-contain;
+}

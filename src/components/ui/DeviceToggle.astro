@@ -1,0 +1,99 @@
+---
+interface Props {
+  hasIphone: boolean;
+  hasIpad: boolean;
+}
+
+const { hasIphone, hasIpad } = Astro.props;
+const showToggle = hasIphone && hasIpad;
+---
+
+{
+  showToggle && (
+    <div class="flex items-center justify-center gap-2 mb-6">
+      <button
+        data-device-toggle="iphone"
+        class="device-toggle-btn active rounded-full px-4 py-2 text-sm font-medium transition-colors"
+        aria-pressed="true"
+      >
+        <svg
+          class="inline-block h-4 w-4 mr-1.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="5" y="1" width="14" height="22" rx="3" />
+          <line
+            x1="12"
+            y1="19"
+            x2="12"
+            y2="19.01"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+        </svg>
+        iPhone
+      </button>
+      <button
+        data-device-toggle="ipad"
+        class="device-toggle-btn rounded-full px-4 py-2 text-sm font-medium transition-colors"
+        aria-pressed="false"
+      >
+        <svg
+          class="inline-block h-4 w-4 mr-1.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="2" y="3" width="20" height="18" rx="3" />
+          <line
+            x1="12"
+            y1="17"
+            x2="12"
+            y2="17.01"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+        </svg>
+        iPad
+      </button>
+    </div>
+  )
+}
+
+<style>
+  .device-toggle-btn {
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .device-toggle-btn.active {
+    background: var(--color-surface-secondary);
+    color: var(--color-text-primary);
+  }
+  .dark .device-toggle-btn.active {
+    background: var(--color-surface-secondary-dark);
+    color: var(--color-text-primary-dark);
+  }
+</style>
+
+<script is:inline>
+  document.querySelectorAll("[data-device-toggle]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var device = this.getAttribute("data-device-toggle");
+      document.querySelectorAll("[data-device-toggle]").forEach(function (b) {
+        b.classList.remove("active");
+        b.setAttribute("aria-pressed", "false");
+      });
+      this.classList.add("active");
+      this.setAttribute("aria-pressed", "true");
+      document.querySelectorAll("[data-screenshots]").forEach(function (el) {
+        el.style.display =
+          el.getAttribute("data-screenshots") === device ? "" : "none";
+      });
+    });
+  });
+</script>

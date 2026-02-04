@@ -1,0 +1,63 @@
+---
+import AppStoreBadge from "@components/ui/AppStoreBadge.astro";
+import RatingStars from "@components/ui/RatingStars.astro";
+import type { AppData } from "@lib/types";
+
+interface Props {
+  app: AppData;
+  iconUrl: string;
+  shortDescription: string;
+}
+
+const { app, iconUrl, shortDescription } = Astro.props;
+---
+
+<section class="px-4 pt-16 pb-12 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-4xl">
+    <div class="flex flex-col items-center gap-8 sm:flex-row sm:items-start">
+      <!-- App Icon -->
+      <img
+        src={iconUrl}
+        alt={`${app.name} app icon`}
+        width="160"
+        height="160"
+        class="h-32 w-32 rounded-[28px] shadow-xl sm:h-40 sm:w-40"
+      />
+
+      <!-- App Info -->
+      <div
+        class="flex flex-col items-center gap-4 text-center sm:items-start sm:text-left"
+      >
+        <h1 class="text-heading">{app.name}</h1>
+        <p
+          class="max-w-xl text-lg text-text-secondary dark:text-text-secondary-dark"
+        >
+          {shortDescription}
+        </p>
+
+        <RatingStars
+          rating={app.userRating.average}
+          count={app.userRating.count}
+        />
+
+        <!-- Badges -->
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="info-badge">v{app.version}</span>
+          {
+            app.price === 0 ? (
+              <span class="info-badge">Free</span>
+            ) : (
+              <span class="info-badge">${app.price.toFixed(2)}</span>
+            )
+          }
+          {app.genres.map((genre) => <span class="info-badge">{genre}</span>)}
+        </div>
+
+        <!-- App Store Button -->
+        <div class="mt-2">
+          <AppStoreBadge href={app.storeUrl} />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

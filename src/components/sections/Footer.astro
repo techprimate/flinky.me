@@ -1,0 +1,89 @@
+---
+import ThemeToggle from "@components/ui/ThemeToggle.astro";
+import type { AppConfig } from "@config/app.config";
+import { getArtworkUrl } from "@lib/api";
+import type { AppData } from "@lib/types";
+
+interface Props {
+  app: AppData;
+  config: AppConfig;
+}
+
+const { app, config } = Astro.props;
+const iconUrl = getArtworkUrl(app, 100);
+const year = new Date().getFullYear();
+const hasLinks =
+  config.links.privacy || config.links.terms || config.links.website;
+---
+
+<footer class="border-t border-border px-4 py-12 dark:border-border-dark">
+  <div class="mx-auto flex max-w-4xl flex-col items-center gap-6">
+    <!-- App info -->
+    <div class="flex items-center gap-3">
+      <img
+        src={iconUrl}
+        alt={`${app.name} icon`}
+        width="40"
+        height="40"
+        class="h-10 w-10 rounded-xl"
+      />
+      <span class="text-lg font-semibold">{app.name}</span>
+    </div>
+
+    <p
+      class="text-center text-sm text-text-secondary dark:text-text-secondary-dark"
+    >
+      by <a
+        href={app.developer.storeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline hover:text-text-primary dark:hover:text-text-primary-dark"
+        >{app.developer.name}</a
+      >
+    </p>
+
+    {
+      hasLinks && (
+        <nav class="flex flex-wrap items-center justify-center gap-4 text-sm text-text-secondary dark:text-text-secondary-dark">
+          {config.links.privacy && (
+            <a
+              href={config.links.privacy}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-text-primary dark:hover:text-text-primary-dark"
+            >
+              Privacy Policy
+            </a>
+          )}
+          {config.links.terms && (
+            <a
+              href={config.links.terms}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-text-primary dark:hover:text-text-primary-dark"
+            >
+              Terms of Service
+            </a>
+          )}
+          {config.links.website && (
+            <a
+              href={config.links.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-text-primary dark:hover:text-text-primary-dark"
+            >
+              Website
+            </a>
+          )}
+        </nav>
+      )
+    }
+
+    <ThemeToggle />
+
+    <p class="text-xs text-text-secondary dark:text-text-secondary-dark">
+      &copy; {year}
+      {app.developer.name}. All rights reserved.
+    </p>
+  </div>
+</footer>

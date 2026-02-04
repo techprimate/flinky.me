@@ -1,0 +1,31 @@
+---
+import FAQ from "@components/sections/FAQ.astro";
+import Features from "@components/sections/Features.astro";
+import Footer from "@components/sections/Footer.astro";
+import Hero from "@components/sections/Hero.astro";
+import Screenshots from "@components/sections/Screenshots.astro";
+import BackToTop from "@components/ui/BackToTop.astro";
+import { appConfig } from "@config/app.config";
+import Layout from "@layouts/Layout.astro";
+import { getArtworkUrl } from "@lib/api";
+import { fetchAppData } from "@lib/fetchAppData";
+
+const app = await fetchAppData();
+const iconUrl = getArtworkUrl(app, 512);
+const shortDescription = app.description.split("\n")[0];
+---
+
+<Layout
+  title={`${app.name} — ${shortDescription}`}
+  description={shortDescription}
+  iconUrl={iconUrl}
+>
+  <main>
+    <Hero app={app} iconUrl={iconUrl} shortDescription={shortDescription} />
+    <Screenshots screenshots={app.screenshots} appName={app.name} />
+    <Features features={appConfig.features} />
+    <FAQ faqs={appConfig.faqs} />
+  </main>
+  <Footer app={app} config={appConfig} />
+  <BackToTop />
+</Layout>
