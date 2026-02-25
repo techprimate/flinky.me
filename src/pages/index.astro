@@ -1,15 +1,16 @@
 ---
+import About from "@components/sections/About.astro";
 import FAQ from "@components/sections/FAQ.astro";
 import Features from "@components/sections/Features.astro";
 import Footer from "@components/sections/Footer.astro";
 import Hero from "@components/sections/Hero.astro";
 import Screenshots from "@components/sections/Screenshots.astro";
+import WhatsNew from "@components/sections/WhatsNew.astro";
 import BackToTop from "@components/ui/BackToTop.astro";
 import { appConfig } from "@config/app.config";
 import Layout from "@layouts/Layout.astro";
 import { getArtworkUrl } from "@lib/api";
 import { fetchAppData } from "@lib/fetchAppData";
-
 const app = await fetchAppData();
 const iconUrl = getArtworkUrl(app, 512);
 const shortDescription = app.description.split("\n")[0];
@@ -24,6 +25,8 @@ const shortDescription = app.description.split("\n")[0];
     <Hero app={app} iconUrl={iconUrl} shortDescription={shortDescription} />
     <Screenshots screenshots={app.screenshots} appName={app.name} />
     <Features features={appConfig.features} />
+    <About app={app} />
+    <WhatsNew app={app} />
     <FAQ faqs={appConfig.faqs} />
   </main>
   <Footer app={app} config={appConfig} />

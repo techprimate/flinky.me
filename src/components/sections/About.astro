@@ -1,0 +1,23 @@
+---
+import { beautifyDescription } from "@lib/beautifyDescription";
+import type { AppData } from "@lib/types";
+
+interface Props {
+  app: AppData;
+}
+
+const { app } = Astro.props;
+const text = beautifyDescription(app.description);
+const hasContent = text.length > 0;
+---
+
+{hasContent && (
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="text-heading mb-8 text-center">About {app.name}</h2>
+      <div class="card-base whitespace-pre-line text-text-secondary dark:text-text-secondary-dark leading-relaxed">
+        {text}
+      </div>
+    </div>
+  </section>
+)}

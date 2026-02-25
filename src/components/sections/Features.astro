@@ -2,7 +2,7 @@
 import type { Feature } from "@lib/types";
 
 interface Props {
-  features: Feature[];
+  features: Array<Pick<Feature, "icon" | "title" | "description">>;
 }
 
 const { features } = Astro.props;

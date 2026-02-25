@@ -1,0 +1,26 @@
+---
+import type { AppData } from "@lib/types";
+
+interface Props {
+  app: AppData;
+}
+
+const { app } = Astro.props;
+const hasReleaseNotes = app.releaseNotes?.trim().length > 0;
+---
+
+{hasReleaseNotes && (
+  <section class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="text-heading mb-8 text-center">What's New</h2>
+      <div class="card-base">
+        <p class="text-text-secondary dark:text-text-secondary-dark leading-relaxed whitespace-pre-line">
+          {app.releaseNotes}
+        </p>
+        <p class="mt-4 text-sm text-text-secondary dark:text-text-secondary-dark">
+          Version {app.version}
+        </p>
+      </div>
+    </div>
+  </section>
+)}

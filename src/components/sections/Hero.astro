@@ -51,6 +51,11 @@ const { app, iconUrl, shortDescription } = Astro.props;
             )
           }
           {app.genres.map((genre) => <span class="info-badge">{genre}</span>)}
+          {app.languages.length > 0 && (
+            <span class="info-badge" title="Supported languages">
+              {app.languages.join(", ")}
+            </span>
+          )}
         </div>
 
         <!-- App Store Button -->
