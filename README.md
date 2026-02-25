@@ -21,15 +21,16 @@ The main config file. Only `appId` is required — everything else is optional.
 
 ```ts
 export const appConfig: AppConfig = {
-  apiKey: '',              // API key for api.appmetadata.com (or use env var)
-  appId: '6748324734',     // Apple App Store numeric ID
+  apiKey: "", // API key for api.appmetadata.com (or use env var)
+  appId: "6748324734", // Apple App Store numeric ID
 
-  features: [],            // Optional — feature cards (hidden if empty)
-  faqs: [],                // Optional — FAQ accordion (hidden if empty)
+  features: [], // Optional — feature cards (hidden if empty)
+  faqs: [], // Optional — FAQ accordion (hidden if empty)
   links: {
-    privacy: '',           // Optional — external URL
-    terms: '',             // Optional — external URL
-    website: '',           // Optional — external URL
+    privacy: "", // Optional — external URL
+    terms: "", // Optional — external URL
+    website: "", // Optional — external URL
+    github: "https://github.com/techprimate/flinky.me", // Optional — public repo URL
   },
 };
 ```
@@ -55,13 +56,15 @@ faqs: [
 ],
 ```
 
+**`links.github`** — Public GitHub repo URL. Shown in the footer nav when set.
+
 ### `astro.config.mjs`
 
 Set the `site` URL to your production domain. This is used for the sitemap and canonical URLs.
 
 ```js
 export default defineConfig({
-  site: 'https://flinky.me',
+  site: "https://flinky.me",
   // ...
 });
 ```
@@ -127,12 +130,12 @@ All API data is fetched once during `astro build` and baked into the output. No 
 
 ## Commands
 
-| Command          | Action                                       |
-| :--------------- | :------------------------------------------- |
-| `yarn install`   | Install dependencies                         |
-| `yarn dev`       | Start local dev server at `localhost:4321`    |
-| `yarn build`     | Build production site to `./dist/`           |
-| `yarn preview`   | Preview the built site locally               |
+| Command        | Action                                     |
+| :------------- | :----------------------------------------- |
+| `yarn install` | Install dependencies                       |
+| `yarn dev`     | Start local dev server at `localhost:4321` |
+| `yarn build`   | Build production site to `./dist/`         |
+| `yarn preview` | Preview the built site locally             |
 
 ## Deployment
 

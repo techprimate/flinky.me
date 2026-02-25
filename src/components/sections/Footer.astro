@@ -13,7 +13,10 @@ const { app, config } = Astro.props;
 const iconUrl = getArtworkUrl(app, 100);
 const year = new Date().getFullYear();
 const hasLinks =
-  config.links.privacy || config.links.terms || config.links.website;
+  config.links.privacy ||
+  config.links.terms ||
+  config.links.website ||
+  config.links.github;
 ---
 
 <footer class="border-t border-border px-4 py-12 dark:border-border-dark">
@@ -73,6 +76,16 @@ const hasLinks =
               class="hover:text-text-primary dark:hover:text-text-primary-dark"
             >
               Website
+            </a>
+          )}
+          {config.links.github && (
+            <a
+              href={config.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-text-primary dark:hover:text-text-primary-dark"
+            >
+              GitHub
             </a>
           )}
         </nav>
