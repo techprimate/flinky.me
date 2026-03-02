@@ -871,6 +871,14 @@ array-iterate@^2.0.0:
   resolved "https://registry.yarnpkg.com/array-iterate/-/array-iterate-2.0.1.tgz#6efd43f8295b3fee06251d3d62ead4bd9805dd24"
   integrity sha512-I1jXZMjAgCMmxT4qxXfPXa6SthSoE8h6gkSI9BGGNv8mP8G/v0blc+qFnZu6K42vTOiuME596QaLO0TP3Lk0xg==
 
+astro-robots-txt@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/astro-robots-txt/-/astro-robots-txt-1.0.0.tgz#d5e47c03e7b3d6b070d75eb470dd3661fa19fe96"
+  integrity sha512-6JQSLid4gMhoWjOm85UHLkgrw0+hHIjnJVIUqxjU2D6feKlVyYukMNYjH44ZDZBK1P8hNxd33PgWlHzCASvedA==
+  dependencies:
+    valid-filename "^4.0.0"
+    zod "^3.22.2"
+
 astro@^5.17.1:
   version "5.17.1"
   resolved "https://registry.yarnpkg.com/astro/-/astro-5.17.1.tgz#c645a6344538407d19c69ac365e7f9e8360e54ea"
@@ -1298,6 +1306,11 @@ fdir@^6.4.4, fdir@^6.5.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/fdir/-/fdir-6.5.0.tgz#ed2ab967a331ade62f18d077dae192684d50d350"
   integrity sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==
+
+filename-reserved-regex@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/filename-reserved-regex/-/filename-reserved-regex-3.0.0.tgz#3d5dd6d4e2d73a3fed2ebc4cd0b3448869a081f7"
+  integrity sha512-hn4cQfU6GOT/7cFHXBqeBg2TbrMBgdD0kcjLhvSQYYwm3s4B6cjvBfb7nBALJLAXqmU5xajSa7X2NnUud/VCdw==
 
 flattie@^1.1.1:
   version "1.1.1"
@@ -2757,6 +2770,13 @@ unstorage@^1.17.4:
     ofetch "^1.5.1"
     ufo "^1.6.3"
 
+valid-filename@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/valid-filename/-/valid-filename-4.0.0.tgz#64f1528cffa0725491de84bf1a65733c6125ab06"
+  integrity sha512-VEYTpTVPMgO799f2wI7zWf0x2C54bPX6NAfbZ2Z8kZn76p+3rEYCTYVYzMUcVSMvakxMQTriBf24s3+WeXJtEg==
+  dependencies:
+    filename-reserved-regex "^3.0.0"
+
 vfile-location@^5.0.0:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/vfile-location/-/vfile-location-5.0.3.tgz#cb9eacd20f2b6426d19451e0eafa3d0a846225c3"
@@ -2863,7 +2883,7 @@ zod-to-ts@^1.2.0:
   resolved "https://registry.yarnpkg.com/zod-to-ts/-/zod-to-ts-1.2.0.tgz#873a2fd8242d7b649237be97e0c64d7954ae0c51"
   integrity sha512-x30XE43V+InwGpvTySRNz9kB7qFU8DlyEy7BsSTCHPH1R0QasMmHWZDCzYm6bVXtj/9NNJAZF3jW8rzFvH5OFA==
 
-zod@^3.25.76:
+zod@^3.22.2, zod@^3.25.76:
   version "3.25.76"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.25.76.tgz#26841c3f6fd22a6a2760e7ccb719179768471e34"
   integrity sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==
