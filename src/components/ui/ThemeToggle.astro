@@ -2,7 +2,7 @@
 ---
 
 <div class="flex items-center gap-1 rounded-full bg-surface-secondary p-1 dark:bg-surface-secondary-dark">
-  <button data-theme-set="light" class="theme-btn rounded-full p-2 transition-colors" aria-label="Light mode">
+  <button data-theme-set="light" class="theme-btn rounded-full p-2 transition-colors" aria-label="Light mode" aria-pressed="false">
     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="5" />
       <line x1="12" y1="1" x2="12" y2="3" />
@@ -15,14 +15,14 @@
       <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
     </svg>
   </button>
-  <button data-theme-set="system" class="theme-btn rounded-full p-2 transition-colors" aria-label="System theme">
+  <button data-theme-set="system" class="theme-btn rounded-full p-2 transition-colors" aria-label="System theme" aria-pressed="false">
     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
       <line x1="8" y1="21" x2="16" y2="21" />
       <line x1="12" y1="17" x2="12" y2="21" />
     </svg>
   </button>
-  <button data-theme-set="dark" class="theme-btn rounded-full p-2 transition-colors" aria-label="Dark mode">
+  <button data-theme-set="dark" class="theme-btn rounded-full p-2 transition-colors" aria-label="Dark mode" aria-pressed="false">
     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
     </svg>
@@ -62,7 +62,9 @@
 
     function updateButtons(theme) {
       document.querySelectorAll('[data-theme-set]').forEach(function (btn) {
-        btn.classList.toggle('active', btn.getAttribute('data-theme-set') === theme);
+        var isActive = btn.getAttribute('data-theme-set') === theme;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
       });
     }
 
