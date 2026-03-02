@@ -1,0 +1,27 @@
+---
+import BackToTop from "@components/ui/BackToTop.astro";
+import Layout from "@layouts/Layout.astro";
+
+const siteUrl = Astro.site?.toString() ?? "https://flinky.me";
+const iconUrl = new URL("/favicon.svg", siteUrl).href;
+---
+
+<Layout
+  title="Page Not Found — flinky.me"
+  description="The page you're looking for doesn't exist."
+  iconUrl={iconUrl}
+>
+  <main class="flex min-h-[60vh] flex-col items-center justify-center px-4">
+    <h1 class="text-heading mb-4">404</h1>
+    <p class="mb-8 text-center text-lg text-text-secondary dark:text-text-secondary-dark">
+      The page you're looking for doesn't exist or has been moved.
+    </p>
+    <a
+      href="/"
+      class="store-button"
+    >
+      Back to Home
+    </a>
+  </main>
+  <BackToTop />
+</Layout>
