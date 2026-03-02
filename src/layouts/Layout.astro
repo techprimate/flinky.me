@@ -1,39 +1,64 @@
 ---
 import "../styles/global.css";
+import { SEO } from "astro-seo";
+import { getImagePath } from "astro-opengraph-images";
 
 interface Props {
   title: string;
   description: string;
   iconUrl: string;
+  /** Site/app name for og:site_name. Defaults to "flinky.me". */
+  siteName?: string;
 }
 
-const { title, description, iconUrl } = Astro.props;
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const { title, description, iconUrl, siteName = "flinky.me" } = Astro.props;
+const site = Astro.site ?? "https://flinky.me";
+const canonicalUrl = new URL(Astro.url.pathname, site);
+const themeColor = "#007aff";
+const ogImageUrl = getImagePath({ url: Astro.url, site: Astro.site });
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href={iconUrl} />
-    <link rel="canonical" href={canonicalUrl.href} />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={iconUrl} />
-    <meta property="og:url" content={canonicalUrl.href} />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={iconUrl} />
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonicalUrl.href}
+      charset="UTF-8"
+      openGraph={{
+        basic: {
+          title,
+          type: "website",
+          image: ogImageUrl,
+          url: canonicalUrl.href,
+        },
+        optional: {
+          description,
+          siteName,
+        },
+        image: {
+          alt: description,
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        title,
+        description,
+        image: ogImageUrl,
+      }}
+      extend={{
+        link: [
+          { rel: "icon", type: "image/png", href: iconUrl },
+          { rel: "apple-touch-icon", href: iconUrl },
+        ],
+        meta: [
+          { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+          { name: "theme-color", content: themeColor },
+          { name: "generator", content: Astro.generator },
+        ],
+      }}
+    />
 
     <slot name="head" />
 
@@ -48,8 +73,15 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
         }
       })();
     </script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="6efde0e5-15be-488a-a3c0-32402cffc587"></script>
   </head>
   <body class="min-h-screen">
+    <a
+      href="#main-content"
+      class="skip-link"
+    >
+      Skip to main content
+    </a>
     <slot />
   </body>
 </html>

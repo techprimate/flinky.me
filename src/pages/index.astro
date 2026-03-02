@@ -1,4 +1,5 @@
 ---
+import type { SoftwareApplication, WithContext } from "schema-dts";
 import About from "@components/sections/About.astro";
 import FAQ from "@components/sections/FAQ.astro";
 import Features from "@components/sections/Features.astro";
@@ -7,17 +8,19 @@ import Hero from "@components/sections/Hero.astro";
 import Screenshots from "@components/sections/Screenshots.astro";
 import WhatsNew from "@components/sections/WhatsNew.astro";
 import BackToTop from "@components/ui/BackToTop.astro";
+import { Schema } from "astro-seo-schema";
 import { appConfig } from "@config/app.config";
 import Layout from "@layouts/Layout.astro";
 import { getArtworkUrl } from "@lib/api";
 import { fetchAppData } from "@lib/fetchAppData";
+
 const app = await fetchAppData();
 const iconUrl = getArtworkUrl(app, 512);
 const shortDescription = app.description.split("\n")[0];
 const siteUrl = Astro.site?.toString() ?? "https://flinky.me";
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
 
-const jsonLd = {
+const schema: WithContext<SoftwareApplication> = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: app.name,
@@ -30,15 +33,14 @@ const jsonLd = {
     price: app.price,
     priceCurrency: "USD",
   },
-  aggregateRating:
-    app.userRating.count > 0
-      ? {
-          "@type": "AggregateRating",
-          ratingValue: app.userRating.average,
-          ratingCount: app.userRating.count,
-          bestRating: 5,
-        }
-      : undefined,
+  ...(app.userRating.count > 0 && {
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: app.userRating.average,
+      ratingCount: app.userRating.count,
+      bestRating: 5,
+    },
+  }),
   downloadUrl: app.storeUrl,
   url: canonicalUrl,
 };
@@ -48,11 +50,10 @@ const jsonLd = {
   title={`${app.name} — ${shortDescription}`}
   description={shortDescription}
   iconUrl={iconUrl}
+  siteName={app.name}
 >
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  </Fragment>
-  <main>
+  <Schema item={schema} slot="head" />
+  <main id="main-content">
     <Hero app={app} iconUrl={iconUrl} shortDescription={shortDescription} />
     <Screenshots screenshots={app.screenshots} appName={app.name} />
     <Features features={appConfig.features} />
