@@ -35,6 +35,8 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={iconUrl} />
 
+    <slot name="head" />
+
     <script is:inline>
       (function () {
         const stored = localStorage.getItem("theme");

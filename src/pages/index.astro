@@ -14,6 +14,34 @@ import { fetchAppData } from "@lib/fetchAppData";
 const app = await fetchAppData();
 const iconUrl = getArtworkUrl(app, 512);
 const shortDescription = app.description.split("\n")[0];
+const siteUrl = Astro.site?.toString() ?? "https://flinky.me";
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: app.name,
+  description: shortDescription,
+  image: iconUrl,
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "iOS",
+  offers: {
+    "@type": "Offer",
+    price: app.price,
+    priceCurrency: "USD",
+  },
+  aggregateRating:
+    app.userRating.count > 0
+      ? {
+          "@type": "AggregateRating",
+          ratingValue: app.userRating.average,
+          ratingCount: app.userRating.count,
+          bestRating: 5,
+        }
+      : undefined,
+  downloadUrl: app.storeUrl,
+  url: canonicalUrl,
+};
 ---
 
 <Layout
@@ -21,6 +49,9 @@ const shortDescription = app.description.split("\n")[0];
   description={shortDescription}
   iconUrl={iconUrl}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
   <main>
     <Hero app={app} iconUrl={iconUrl} shortDescription={shortDescription} />
     <Screenshots screenshots={app.screenshots} appName={app.name} />
