@@ -1,4 +1,5 @@
 ---
+import AppStoreBadge from "@components/ui/AppStoreBadge.astro";
 import ThemeToggle from "@components/ui/ThemeToggle.astro";
 import type { AppConfig } from "@config/app.config";
 import { getArtworkUrl } from "@lib/api";
@@ -12,11 +13,10 @@ interface Props {
 const { app, config } = Astro.props;
 const iconUrl = getArtworkUrl(app, 100);
 const year = new Date().getFullYear();
-const hasLinks =
-  config.links.privacy ||
-  config.links.terms ||
-  config.links.website ||
-  config.links.github;
+const privacyUrl = app.privacyPolicyUrl || config.links.privacy;
+const termsUrl = app.termsOfServiceUrl || config.links.terms;
+const websiteUrl = app.sellerUrl || config.links.website;
+const hasLinks = privacyUrl || termsUrl || websiteUrl || config.links.github;
 ---
 
 <footer class="border-t border-border px-4 py-12 dark:border-border-dark">
@@ -45,12 +45,14 @@ const hasLinks =
       >
     </p>
 
+    <AppStoreBadge href={app.storeUrl} />
+
     {
       hasLinks && (
         <nav class="flex flex-wrap items-center justify-center gap-4 text-sm text-text-secondary dark:text-text-secondary-dark">
-          {config.links.privacy && (
+          {privacyUrl && (
             <a
-              href={config.links.privacy}
+              href={privacyUrl}
               target="_blank"
               rel="noopener noreferrer"
               class="hover:text-text-primary dark:hover:text-text-primary-dark"
@@ -58,9 +60,9 @@ const hasLinks =
               Privacy Policy
             </a>
           )}
-          {config.links.terms && (
+          {termsUrl && (
             <a
-              href={config.links.terms}
+              href={termsUrl}
               target="_blank"
               rel="noopener noreferrer"
               class="hover:text-text-primary dark:hover:text-text-primary-dark"
@@ -68,9 +70,9 @@ const hasLinks =
               Terms of Service
             </a>
           )}
-          {config.links.website && (
+          {websiteUrl && (
             <a
-              href={config.links.website}
+              href={websiteUrl}
               target="_blank"
               rel="noopener noreferrer"
               class="hover:text-text-primary dark:hover:text-text-primary-dark"

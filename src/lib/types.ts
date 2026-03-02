@@ -50,4 +50,10 @@ export interface AppData {
   artwork: ArtworkSet;
   screenshots: ScreenshotSets;
   userRating: RatingInfo;
+  /** Privacy policy URL from App Store API. */
+  privacyPolicyUrl?: string;
+  /** Terms of service / EULA URL from App Store API. */
+  termsOfServiceUrl?: string;
+  /** Developer/seller website from App Store API. */
+  sellerUrl?: string;
 }
