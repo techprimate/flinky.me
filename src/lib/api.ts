@@ -39,16 +39,53 @@ function normalizeAppData(raw: Record<string, unknown>): AppData {
   } as AppData;
 }
 
+const MAX_ATTEMPTS = 4;
+const RETRY_BASE_DELAY_MS = 1000;
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** A non-OK response that should not be retried (e.g. 404 for an unknown app). */
+class NonRetryableHttpError extends Error {}
+
+/** Retry on network errors and 5xx/429 responses; other 4xx fail fast. */
+function isRetryable(status: number): boolean {
+  return status === 429 || status >= 500;
+}
+
 export async function getAppMetadata(appId: string): Promise<AppData> {
   const url = buildUrl(`/apps/${appId}`);
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(
-      `Failed to fetch app metadata: ${response.status} ${response.statusText}`,
+
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const json = await response.json();
+        return normalizeAppData(json.data ?? json);
+      }
+      const message = `Failed to fetch app metadata: ${response.status} ${response.statusText}`;
+      if (!isRetryable(response.status)) {
+        throw new NonRetryableHttpError(message);
+      }
+      lastError = new Error(message);
+    } catch (error) {
+      // 4xx responses are a permanent misconfiguration — fail immediately.
+      if (error instanceof NonRetryableHttpError) throw error;
+      // Network/parse failures are transient; rethrow only on the final attempt.
+      lastError = error;
+      if (attempt >= MAX_ATTEMPTS) throw error;
+    }
+
+    const delay = RETRY_BASE_DELAY_MS * 2 ** (attempt - 1);
+    console.warn(
+      `App metadata fetch attempt ${attempt}/${MAX_ATTEMPTS} failed, retrying in ${delay}ms:`,
+      lastError instanceof Error ? lastError.message : lastError,
     );
+    await sleep(delay);
   }
-  const json = await response.json();
-  return normalizeAppData(json.data ?? json);
+
+  // Unreachable: the loop either returns data or throws on the final attempt.
+  throw lastError;
 }
 
 export function getArtworkUrl(
