@@ -5,8 +5,8 @@ Static landing page for iOS apps, built with [Astro](https://astro.build) and [T
 ## Quick Start
 
 ```sh
-yarn install
-yarn dev
+pnpm install
+pnpm dev
 ```
 
 The dev server starts at `http://localhost:4321`.
@@ -132,10 +132,10 @@ All API data is fetched once during `astro build` and baked into the output. No 
 
 | Command        | Action                                     |
 | :------------- | :----------------------------------------- |
-| `yarn install` | Install dependencies                       |
-| `yarn dev`     | Start local dev server at `localhost:4321` |
-| `yarn build`   | Build production site to `./dist/`         |
-| `yarn preview` | Preview the built site locally             |
+| `pnpm install` | Install dependencies                       |
+| `pnpm dev`     | Start local dev server at `localhost:4321` |
+| `pnpm build`   | Build production site to `./dist/`         |
+| `pnpm preview` | Preview the built site locally             |
 
 ## Deployment
 
