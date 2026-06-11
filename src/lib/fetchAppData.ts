@@ -4,35 +4,17 @@ import type { AppData } from "./types";
 
 let cachedData: AppData | null = null;
 
-/** Fallback app data used when API fails, so the site can still build. */
-function getFallbackData(): AppData {
-  return {
-    id: 0,
-    bundleId: "",
-    name: "App",
-    description: "Unable to load app metadata. Please try again later.",
-    genres: [],
-    languages: [],
-    price: 0,
-    releaseNotes: "",
-    version: "0.0.0",
-    storeUrl: "#",
-    developer: { id: 0, name: "Developer", storeUrl: "#" },
-    artwork: {},
-    screenshots: { iphone: [], ipad: [] },
-    userRating: { average: 0, count: 0 },
-  };
-}
-
+/**
+ * Fetches app metadata at build time.
+ *
+ * There is intentionally no fallback: if the metadata API is unavailable the
+ * error propagates and fails the build, so the previous good deployment stays
+ * live instead of shipping a placeholder page. `getAppMetadata` already retries
+ * to ride out transient API blips before we give up.
+ */
 export async function fetchAppData(): Promise<AppData> {
   if (cachedData) return cachedData;
 
-  try {
-    cachedData = await getAppMetadata(appConfig.appId);
-    return cachedData;
-  } catch (error) {
-    console.error("Failed to fetch app data:", error);
-    cachedData = getFallbackData();
-    return cachedData;
-  }
+  cachedData = await getAppMetadata(appConfig.appId);
+  return cachedData;
 }
