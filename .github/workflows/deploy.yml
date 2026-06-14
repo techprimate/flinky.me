@@ -41,7 +41,7 @@ jobs:
           APP_METADATA_API_KEY: ${{ secrets.APP_METADATA_API_KEY }}
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: dist/
 
